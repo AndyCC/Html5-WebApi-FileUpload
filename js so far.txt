@@ -25,6 +25,7 @@ var fileUploadManagerFactory = {
     }
 };
 
+
 function FileToUpload(file) {
     this.file = file;
 };
