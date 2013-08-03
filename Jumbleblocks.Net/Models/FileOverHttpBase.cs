@@ -6,10 +6,9 @@ namespace Jumbleblocks.Net.Models
     /// <summary>
     /// represents a file
     /// </summary>
-    public class FileOverHttp
+    public abstract class FileOverHttpBase
     {
         public string FileName { get; set; }
         public string MediaType { get; set; }
-        public byte[] Buffer { get; set; }
     }
 }

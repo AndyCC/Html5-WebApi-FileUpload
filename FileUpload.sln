@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jumbleblocks.Net", "Jumbleb
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Jumbleblocks.Net", "Jumbleblocks.Net.Tests\Tests.Jumbleblocks.Net.csproj", "{C9BCB7AC-1B57-442C-8C65-11AF2C9D0AEE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{596B9D35-0F49-4329-BC9A-C86B114D2D7F}"
+	ProjectSection(SolutionItems) = preProject
+		TODO.txt = TODO.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

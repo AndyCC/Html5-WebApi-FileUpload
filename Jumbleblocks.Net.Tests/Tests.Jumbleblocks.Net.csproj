@@ -50,6 +50,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Files\FakeMemoryFileModel.cs" />
+    <Compile Include="Files\FakePhysicalFileOverHttp.cs" />
+    <Compile Include="Files\FileMappingRuleSetTests\IsValidTests.cs" />
+    <Compile Include="Files\FileMappingTests\RegisterPhysicalFileRulesForTypeTests.cs" />
+    <Compile Include="Files\PhysicalFileRuleGeneratorTests\AddFilePathRuleTests.cs" />
+    <Compile Include="Files\PhysicalFileRuleGeneratorTests\DefaultSavePathTests.cs" />
+    <Compile Include="Files\PhysicalFileRuleGeneratorTests\StartTests.cs" />
+    <Compile Include="Files\PhysicalFileRuleGeneratorTests\WhenPropertyMatchesSaveToTests.cs" />
     <Compile Include="Formatting\FileMediaTypeFormatterTests\CanReadTests.cs" />
     <Compile Include="Formatting\FileMediaTypeFormatterTests\CanWriteTests.cs" />
     <Compile Include="Formatting\FileMediaTypeFormatterTests\FileMediaTypeFormatterTestBase.cs" />

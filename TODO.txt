@@ -1,0 +1,2 @@
+Support for file renaming on mappings
+Support for overwrite/rename/fail if file name exists

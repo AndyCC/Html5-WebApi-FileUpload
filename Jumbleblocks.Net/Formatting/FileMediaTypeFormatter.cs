@@ -6,10 +6,11 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Jumbleblocks.Net.Models;
 
 namespace Jumbleblocks.Net.Formatting
 {
+    //TODO: need impl for physical and memory
+
     public class FileMediaTypeFormatter : MediaTypeFormatter
     {
         public FileMediaTypeFormatter()
@@ -20,7 +21,8 @@ namespace Jumbleblocks.Net.Formatting
 
         public override bool CanReadType(Type type)
         {
-            return type == typeof(FileOverHttp) || type == typeof(FilePartOverHttp);
+         //   return type == typeof(FileOverHttpBase) || type == typeof(MemoryFilePartOverHttp);
+            return false;
         }
 
         public override bool CanWriteType(Type type)
@@ -39,3 +41,6 @@ namespace Jumbleblocks.Net.Formatting
         }
     }
 }
+
+//MultipartMemoryStreamProvider 
+//MultipartFormDataStreamProvider 

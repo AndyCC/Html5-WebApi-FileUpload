@@ -2,14 +2,13 @@
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Formatting;
-using System.Net.Http.Headers;
 using System.Web.Http;
 using Jumbleblocks.Net.Models;
 using Moq;
 using NUnit.Framework;
 using Should.Fluent;
+using Tests.Jumbleblocks.Net.Files;
 using Tests.Jumbleblocks.Net.Helpers;
 
 namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
@@ -28,7 +27,7 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
 
         public override void SetUp_AfterItemUnderTest()
         {
-            _type = typeof (FileOverHttp);
+            _type = typeof(FakePhysicalFileOverHttp);
             _stream = new Mock<Stream>();
             _httpContent = new HttpContentMock();
             _formatterLogger = new Mock<IFormatterLogger>();
@@ -63,5 +62,7 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
             Call_ReadFromStreamAsync();
             ThenHttpResponseExceptionThrownWithStatusCode(HttpStatusCode.UnsupportedMediaType);
         }
+
+
     }
 }
