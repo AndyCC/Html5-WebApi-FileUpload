@@ -54,6 +54,7 @@
     <Compile Include="Files\FakePhysicalFileOverHttp.cs" />
     <Compile Include="Files\FileMappingRuleSetTests\IsValidTests.cs" />
     <Compile Include="Files\FileMappingTests\RegisterPhysicalFileRulesForTypeTests.cs" />
+    <Compile Include="Files\FileMappingTests\ValidateRulesTests.cs" />
     <Compile Include="Files\PhysicalFileRuleGeneratorTests\AddFilePathRuleTests.cs" />
     <Compile Include="Files\PhysicalFileRuleGeneratorTests\DefaultSavePathTests.cs" />
     <Compile Include="Files\PhysicalFileRuleGeneratorTests\StartTests.cs" />

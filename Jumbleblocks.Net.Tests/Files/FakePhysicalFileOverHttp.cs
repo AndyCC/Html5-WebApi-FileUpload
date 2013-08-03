@@ -15,4 +15,11 @@ namespace Tests.Jumbleblocks.Net.Files
             return "hi";
         }
     }
+
+    public class FakePhysicalFileOverHttp2 : IPhysicalFileOverHttp
+    {
+        public string FileName { get; set; }
+        public string MediaType { get; set; }
+        public string FullFilePath { get; set; }
+    }
 }

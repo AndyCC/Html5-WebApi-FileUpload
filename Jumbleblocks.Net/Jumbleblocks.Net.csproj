@@ -44,6 +44,7 @@
     <Compile Include="Core\Expressions\ExpressionException.cs" />
     <Compile Include="Core\Expressions\ExpressionHelper.cs" />
     <Compile Include="Core\Expressions\MemberExpressionException.cs" />
+    <Compile Include="Files\DuplicateRegistrationException.cs" />
     <Compile Include="Files\FileMapping.cs" />
     <Compile Include="Files\FileMappingException.cs" />
     <Compile Include="Files\InvalidFilePathMappingException.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Files\LoadInto.cs" />
     <Compile Include="Files\PhysicalFileRuleGenerator.cs" />
     <Compile Include="Files\ValidationResult.cs" />
+    <Compile Include="Files\ValidationResultCollection.cs" />
     <Compile Include="Formatting\FileMediaTypeFormatter.cs" />
     <Compile Include="Models\IFileOverHttp.cs" />
     <Compile Include="Models\IMemoryFileOverHttp.cs" />
