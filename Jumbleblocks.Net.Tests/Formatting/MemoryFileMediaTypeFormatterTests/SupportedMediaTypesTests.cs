@@ -1,11 +1,18 @@
-﻿using NUnit.Framework;
+﻿using Jumbleblocks.Net.Formatting;
+using NUnit.Framework;
 using Should.Fluent;
 
-namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
+namespace Tests.Jumbleblocks.Net.Formatting.MemoryFileMediaTypeFormatterTests
 {
     [TestFixture]
-    public class SupportedMediaTypesTests : FileMediaTypeFormatterTestBase
+    public class SupportedMediaTypesTests : TestBase<MemoryFileMediaTypeFormatter>
     {
+        [SetUp]
+        public void SetUp()
+        {
+            ItemUnderTest = new MemoryFileMediaTypeFormatter();
+        }
+
         [Test]
         public void Supports_OctetStream_MediaType()
         {

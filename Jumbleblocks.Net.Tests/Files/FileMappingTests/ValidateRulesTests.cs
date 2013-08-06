@@ -1,5 +1,4 @@
-﻿using System;
-using Jumbleblocks.Net.Files;
+﻿using Jumbleblocks.Net.Files;
 using NUnit.Framework;
 using Should.Fluent;
 

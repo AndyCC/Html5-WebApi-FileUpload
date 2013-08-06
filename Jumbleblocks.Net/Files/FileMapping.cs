@@ -42,6 +42,7 @@ namespace Jumbleblocks.Net.Files
             return resultCollection;
         }
 
+        //TODO: test and implement
         public static void AssertRulesAreValid()
         {
             throw new NotImplementedException();

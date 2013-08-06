@@ -59,12 +59,15 @@
     <Compile Include="Files\PhysicalFileRuleGeneratorTests\DefaultSavePathTests.cs" />
     <Compile Include="Files\PhysicalFileRuleGeneratorTests\StartTests.cs" />
     <Compile Include="Files\PhysicalFileRuleGeneratorTests\WhenPropertyMatchesSaveToTests.cs" />
-    <Compile Include="Formatting\FileMediaTypeFormatterTests\CanReadTests.cs" />
-    <Compile Include="Formatting\FileMediaTypeFormatterTests\CanWriteTests.cs" />
-    <Compile Include="Formatting\FileMediaTypeFormatterTests\FileMediaTypeFormatterTestBase.cs" />
-    <Compile Include="Formatting\FileMediaTypeFormatterTests\ReadFromStreamAsyncTests.cs" />
-    <Compile Include="Formatting\FileMediaTypeFormatterTests\SupportedMediaTypesTests.cs" />
+    <Compile Include="Formatting\MemoryFileMediaTypeFormatterTests\ReadFromStreamAsyncTests.cs" />
+    <Compile Include="Formatting\MemoryFileMediaTypeFormatterTests\CanReadTests.cs" />
+    <Compile Include="Formatting\MemoryFileMediaTypeFormatterTests\SupportedMediaTypesTests.cs" />
+    <Compile Include="Formatting\PhysicalFileMediaTypeFormatterTests\CanReadTests.cs" />
+    <Compile Include="Formatting\PhysicalFileMediaTypeFormatterTests\ReadFromStreamAsyncTests.cs" />
+    <Compile Include="Formatting\PhysicalFileMediaTypeFormatterTests\SupportedMediaTypesTests.cs" />
+    <Compile Include="Helpers\FileMappingReaderMock.cs" />
     <Compile Include="Helpers\HttpContentMock.cs" />
+    <Compile Include="Helpers\MockFormatterLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBase.cs" />
   </ItemGroup>

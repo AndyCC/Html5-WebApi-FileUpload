@@ -11,33 +11,20 @@ namespace Jumbleblocks.Net.Formatting
 {
     //TODO: need impl for physical and memory
 
-    public class FileMediaTypeFormatter : MediaTypeFormatter
+    public abstract class FileMediaTypeFormatter : MediaTypeFormatter
     {
-        public FileMediaTypeFormatter()
+        protected FileMediaTypeFormatter()
         {
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/octet-stream"));
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("multipart/form-data"));
         }
 
-        public override bool CanReadType(Type type)
-        {
-         //   return type == typeof(FileOverHttpBase) || type == typeof(MemoryFilePartOverHttp);
-            return false;
-        }
-
-        public override bool CanWriteType(Type type)
-        {
-            return false;
-        }
-
-        public async override Task<object> ReadFromStreamAsync(Type type, Stream readStream, HttpContent content, IFormatterLogger formatterLogger)
+        protected void AssertContentIsMimeMultipartContent(HttpContent content)
         {
             if (!content.IsMimeMultipartContent())
             {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
             }
-
-            throw new NotImplementedException();
         }
     }
 }
