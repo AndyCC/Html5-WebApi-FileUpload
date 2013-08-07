@@ -10,7 +10,7 @@ namespace Tests.Jumbleblocks.Net.Files.FileMappingTests
         [SetUp]
         public void SetUp()
         {
-            FileMapping.PhysicalFilePathMappingRules.Clear();
+            FileMapping.FilePathMappingRules.Clear();
             _validationResultCollection = null;
         }
 
@@ -19,7 +19,7 @@ namespace Tests.Jumbleblocks.Net.Files.FileMappingTests
         [Test]
         public void WhenNoValidationErrors_ThenReturnsValidatedAsTrue()
         {
-            FileMapping.RegisterPhysicalFileRulesForType<FakePhysicalFileOverHttp>()
+            FileMapping.RegisterFileRulesForType<FakeFileOverHttp>()
                        .DefaultSavePath("~/App_Data/");
 
             WhenValidatingRules();
@@ -30,7 +30,7 @@ namespace Tests.Jumbleblocks.Net.Files.FileMappingTests
         [Test]
         public void WithOneInvalidMapping_ThenReturnsValidatedAsFalse()
         {
-            FileMapping.RegisterPhysicalFileRulesForType<FakePhysicalFileOverHttp>();
+            FileMapping.RegisterFileRulesForType<FakeFileOverHttp>();
 
             WhenValidatingRules();
             ThenValidationResultIsFalse();
@@ -40,10 +40,10 @@ namespace Tests.Jumbleblocks.Net.Files.FileMappingTests
         [Test]
         public void WithOneValidAndOneInvalidMapping_ThenReturnsValidatedAsFalse()
         {
-            FileMapping.RegisterPhysicalFileRulesForType<FakePhysicalFileOverHttp>()
+            FileMapping.RegisterFileRulesForType<FakeFileOverHttp>()
                      .DefaultSavePath("~/App_Data/");
 
-            FileMapping.RegisterPhysicalFileRulesForType<FakePhysicalFileOverHttp2>();
+            FileMapping.RegisterFileRulesForType<FakeFileOverHttp2>();
 
             WhenValidatingRules();
             ThenValidationResultIsFalse();

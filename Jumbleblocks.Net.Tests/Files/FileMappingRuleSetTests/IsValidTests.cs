@@ -29,7 +29,7 @@ namespace Tests.Jumbleblocks.Net.Files.FileMappingRuleSetTests
         [Test]
         public void WhenDefaultFilePathIsNull_ThenReturnsFalse()
         {
-            GivenItemUnderTestSetUpWith(fileModelType: typeof(FakePhysicalFileOverHttp));
+            GivenItemUnderTestSetUpWith(fileModelType: typeof(FakeFileOverHttp));
             WhenIsValidCalled();
             ThenValidationResultIsFalse();
             ThenValidationResultContainsMessage("DefaultFilePath is null or empty");
@@ -38,7 +38,7 @@ namespace Tests.Jumbleblocks.Net.Files.FileMappingRuleSetTests
         [Test]
         public void WhenDefaultFilePathIsEmptyString_ThenReturnsFalse()
         {
-            GivenItemUnderTestSetUpWith(string.Empty, typeof(FakePhysicalFileOverHttp));
+            GivenItemUnderTestSetUpWith(string.Empty, typeof(FakeFileOverHttp));
             WhenIsValidCalled();
             ThenValidationResultIsFalse();
             ThenValidationResultContainsMessage("DefaultFilePath is null or empty");
@@ -47,7 +47,7 @@ namespace Tests.Jumbleblocks.Net.Files.FileMappingRuleSetTests
         [Test]
         public void WhenDefaultFilePath_AndFileModelType_HaveValues_ThenReturnsTrue()
         {
-            GivenItemUnderTestSetUpWith(ValidFilePath, typeof(FakePhysicalFileOverHttp));
+            GivenItemUnderTestSetUpWith(ValidFilePath, typeof(FakeFileOverHttp));
             WhenIsValidCalled();
             ThenValidationResultIsTrue();
             ThenValidationResultContainsNoMessages();

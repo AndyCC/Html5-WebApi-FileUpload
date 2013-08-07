@@ -2,15 +2,15 @@
 using NUnit.Framework;
 using Should.Fluent;
 
-namespace Tests.Jumbleblocks.Net.Files.PhysicalFileRuleGeneratorTests
+namespace Tests.Jumbleblocks.Net.Files.FileRuleGeneratorTests
 {
     [TestFixture]
-    public class StartTests : TestBase<PhysicalFileRuleGenerator<FakePhysicalFileOverHttp>>
+    public class StartTests : TestBase<FileRuleGenerator<FakeFileOverHttp>>
     {
         [SetUp]
         public void SetUp()
         {
-            ItemUnderTest = new PhysicalFileRuleGenerator<FakePhysicalFileOverHttp>();
+            ItemUnderTest = new FileRuleGenerator<FakeFileOverHttp>();
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace Tests.Jumbleblocks.Net.Files.PhysicalFileRuleGeneratorTests
         {
             ItemUnderTest.Start();
             var rule = ItemUnderTest.GetFileMappingRuleSet();
-            rule.FileModelType.Should().Equal(typeof (FakePhysicalFileOverHttp));
+            rule.FileModelType.Should().Equal(typeof (FakeFileOverHttp));
         }
     }
 }

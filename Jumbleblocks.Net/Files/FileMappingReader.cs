@@ -6,7 +6,7 @@ namespace Jumbleblocks.Net.Files
     {
         public IEnumerable<FileMappingRuleSet> PhysicalFilePathMappingRules
         {
-            get { return FileMapping.PhysicalFilePathMappingRules; }
+            get { return FileMapping.FilePathMappingRules; }
         }
     }
 }

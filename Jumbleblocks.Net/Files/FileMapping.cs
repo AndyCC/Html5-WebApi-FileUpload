@@ -9,18 +9,18 @@ namespace Jumbleblocks.Net.Files
     {
         static FileMapping()
         {
-            PhysicalFilePathMappingRules = new List<FileMappingRuleSet>();
+            FilePathMappingRules = new List<FileMappingRuleSet>();
         }
 
-        public static IList<FileMappingRuleSet> PhysicalFilePathMappingRules { get; private set; }
+        public static IList<FileMappingRuleSet> FilePathMappingRules { get; private set; }
 
-        public static IPhysicalWithRule<TModelType> RegisterPhysicalFileRulesForType<TModelType>()
-            where TModelType : IPhysicalFileOverHttp
+        public static IFileBuildRule<TModelType> RegisterFileRulesForType<TModelType>()
+            where TModelType : IFileOverHttp
         {
             AssertModelTypeNotRegistered<TModelType>();
 
-            var ruleGenerator = new PhysicalFileRuleGenerator<TModelType>();
-            PhysicalFilePathMappingRules.Add(ruleGenerator.GetFileMappingRuleSet());
+            var ruleGenerator = new FileRuleGenerator<TModelType>();
+            FilePathMappingRules.Add(ruleGenerator.GetFileMappingRuleSet());
 
             return ruleGenerator.Start(); 
         }
@@ -29,7 +29,7 @@ namespace Jumbleblocks.Net.Files
         {
             var modelType = typeof (TModelType);
 
-            if (PhysicalFilePathMappingRules.All(x => x.FileModelType != modelType)) return;
+            if (FilePathMappingRules.All(x => x.FileModelType != modelType)) return;
 
             var message = string.Format("The type '{0}' has already been registered", modelType.FullName);
             throw new DuplicateRegistrationException(message);
@@ -38,7 +38,7 @@ namespace Jumbleblocks.Net.Files
         public static ValidationResultCollection ValidateRules()
         {
             var resultCollection = new ValidationResultCollection();
-            resultCollection.AddRange(PhysicalFilePathMappingRules.Select(x => x.IsValid()));
+            resultCollection.AddRange(FilePathMappingRules.Select(x => x.IsValid()));
             return resultCollection;
         }
 

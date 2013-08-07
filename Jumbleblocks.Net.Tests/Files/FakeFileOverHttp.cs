@@ -2,11 +2,11 @@
 
 namespace Tests.Jumbleblocks.Net.Files
 {
-    public class FakePhysicalFileOverHttp : IPhysicalFileOverHttp
+    public class FakeFileOverHttp : IFileOverHttp
     {
         public string FileName { get; set; }
         public string MediaType { get; set; }
-        public string FullFilePath { get; set; }
+        public string[] FilePaths { get; set; }
 
         public string TestVairable = "Vairable";
 
@@ -14,12 +14,14 @@ namespace Tests.Jumbleblocks.Net.Files
         {
             return "hi";
         }
+
+
     }
 
-    public class FakePhysicalFileOverHttp2 : IPhysicalFileOverHttp
+    public class FakeFileOverHttp2 : IFileOverHttp
     {
         public string FileName { get; set; }
         public string MediaType { get; set; }
-        public string FullFilePath { get; set; }
+        public string[] FilePaths { get; set; }
     }
 }

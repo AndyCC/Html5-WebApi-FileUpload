@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http.Formatting;
 using System.Web.Http;
-using Jumbleblocks.Net.Files;
 using Jumbleblocks.Net.Formatting;
 using Moq;
 using NUnit.Framework;
@@ -12,10 +11,10 @@ using Should.Fluent;
 using Tests.Jumbleblocks.Net.Files;
 using Tests.Jumbleblocks.Net.Helpers;
 
-namespace Tests.Jumbleblocks.Net.Formatting.PhysicalFileMediaTypeFormatterTests
+namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
 {
     [TestFixture]
-    public class ReadFromStreamAsyncTests : TestBase<PhysicalFileMediaTypeFormatter>
+    public class ReadFromStreamAsyncTests : TestBase<FileMediaTypeFormatter>
     {
         private object _returnedObject;
         private Exception _exceptionThrown;
@@ -25,15 +24,18 @@ namespace Tests.Jumbleblocks.Net.Formatting.PhysicalFileMediaTypeFormatterTests
         private Mock<IFormatterLogger> _formatterLogger;
         private HttpContentMock _httpContent;
 
-        private FileMappingReaderMock _fileMappingReader;
+        private WebConfigurationMock _webConfiguration;
+        private MultipartFormDataStreamProviderFactoryMock _multipartFormDataStreamProvider;
 
         [SetUp]
         public void SetUp()
         {
-            _fileMappingReader = new FileMappingReaderMock();
-            ItemUnderTest = new PhysicalFileMediaTypeFormatter(_fileMappingReader.Object);
+            _webConfiguration = new WebConfigurationMock();
+            _multipartFormDataStreamProvider = new MultipartFormDataStreamProviderFactoryMock();
 
-            _type = typeof(FakePhysicalFileOverHttp);
+            ItemUnderTest = new FileMediaTypeFormatter(_webConfiguration.Object, _multipartFormDataStreamProvider.Object);
+
+            _type = typeof(FakeFileOverHttp);
             _stream = new Mock<Stream>();
             _httpContent = new HttpContentMock();
             _formatterLogger = new Mock<IFormatterLogger>();
@@ -61,11 +63,6 @@ namespace Tests.Jumbleblocks.Net.Formatting.PhysicalFileMediaTypeFormatterTests
             ((HttpResponseException)_exceptionThrown).Response.StatusCode.Should().Equal(expectedStatusCode);
         }
 
-        private void ThenShouldThrowFilePathMappingException()
-        {
-            _exceptionThrown.Should().Be.OfType<FileRulesException>();
-        }
-
         [Test]
         public void WhenContentIsNotMimiMultipartContent_ThenThrowsHttpResponseExceptionWithUnsupportedMediaType()
         {
@@ -76,19 +73,27 @@ namespace Tests.Jumbleblocks.Net.Formatting.PhysicalFileMediaTypeFormatterTests
             ThenHttpResponseExceptionThrownWithStatusCode(HttpStatusCode.UnsupportedMediaType);
         }
 
-        //TODO: test when implements memory and physical file
-
         [Test]
-        public void WithFileMappings_NotContainingType_WhenContentIsNotMimiMultipartContent_ThenThrowsFilePathMappingException()
+        public void FetchesTemporaryFileLocation_FromConfiguration_AndCreatesMultiPartFormDataStreamProviderWithIt()
         {
+            const string webConfigKey = "TemporaryFileUploadFolder";
+            const string expectedFolderLocation = "~/App_Data/";
+
+            _httpContent.Set_ContentDispositionTo_FormData();
             _httpContent.Set_ContentTypeTo_MultipartFormDataWithBoundary();
-            _fileMappingReader.Setup_PhysicalFilePathMappingRules_ToReturnEmptyList();
+
+            _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue(webConfigKey, expectedFolderLocation);
 
             Call_ReadFromStreamAsync();
 
-            ThenShouldThrowFilePathMappingException();
+            _webConfiguration.Verify_GetApplicationSetting_CalledWithName(webConfigKey, Times.Once());
+            _multipartFormDataStreamProvider.Verify_CreatedMultipartFormDataStreamProviderCalledOnce_WithRoot(expectedFolderLocation);
         }
 
+        //TODO: mock MultipartFormDataStreamProvider and test returns correct filename to mapped model
+
+        //TODO: test mapping form data into an object 
+        //need serialiser (1)properties, subproperties, arrays (plus casting to differnt types) + look at json to see how it handles errors
         
     }
 }

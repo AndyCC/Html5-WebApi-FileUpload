@@ -6,10 +6,10 @@ using Jumbleblocks.Net.Models;
 
 namespace Jumbleblocks.Net.Files
 {
-    public class PhysicalFileRuleGenerator<TFileModel> : IPhysicalRuleStart<TFileModel>, 
-                                                         IPhysicalWithRule<TFileModel>,
-                                                         IPhysicalFilePathRule<TFileModel>
-        where TFileModel : IPhysicalFileOverHttp
+    public class FileRuleGenerator<TFileModel> : IFileRuleStart<TFileModel>, 
+                                                         IFileBuildRule<TFileModel>,
+                                                         IFilePathRule<TFileModel>
+        where TFileModel : IFileOverHttp
     {
 
         //TODO: add trailing / to file path
@@ -17,18 +17,18 @@ namespace Jumbleblocks.Net.Files
         //TODO: overwriting existing files?
         private readonly FileMappingRuleSet _ruleSet = new FileMappingRuleSet();
 
-        public IPhysicalWithRule<TFileModel> Start()
+        public IFileBuildRule<TFileModel> Start()
         {
             _ruleSet.FileModelType = typeof (TFileModel);
             return this;
         }
 
-        public IPhysicalFilePathRule<TFileModel> AddFilePathRule 
+        public IFilePathRule<TFileModel> AddFilePathRule 
         {
             get { return this; }
         }
 
-        public IPhysicalWithRule<TFileModel> DefaultSavePath(string path)
+        public IFileBuildRule<TFileModel> DefaultSavePath(string path)
         {
             if(_ruleSet.HasDefaultFilePath())
                 throw new FileMappingException("DefaultSavePath() can only be called once and it has already been called");
@@ -49,7 +49,7 @@ namespace Jumbleblocks.Net.Files
             return filePath.IndexOfAny(Path.GetInvalidPathChars()) == -1;
         }
 
-        public IPhysicalWithRule<TFileModel> WhenPropertyMatchesSaveTo<TProperty>(Expression<Func<TFileModel, TProperty>> property, Func<TProperty, bool> evaluator, string saveToFilePath)
+        public IFileBuildRule<TFileModel> WhenPropertyMatchesSaveTo<TProperty>(Expression<Func<TFileModel, TProperty>> property, Func<TProperty, bool> evaluator, string saveToFilePath)
         {
             AssertValidFilePath(saveToFilePath);
 

@@ -2,15 +2,15 @@
 using NUnit.Framework;
 using Should.Fluent;
 
-namespace Tests.Jumbleblocks.Net.Files.PhysicalFileRuleGeneratorTests
+namespace Tests.Jumbleblocks.Net.Files.FileRuleGeneratorTests
 {
     [TestFixture]
-    public class DefaultSavePathTests : TestBase<PhysicalFileRuleGenerator<FakePhysicalFileOverHttp>>
+    public class DefaultSavePathTests : TestBase<FileRuleGenerator<FakeFileOverHttp>>
     {
         [SetUp]
         public void SetUp()
         {
-            ItemUnderTest = new PhysicalFileRuleGenerator<FakePhysicalFileOverHttp>();
+            ItemUnderTest = new FileRuleGenerator<FakeFileOverHttp>();
         }
 
         private const string ValidFilePath = "~/App_Data/";

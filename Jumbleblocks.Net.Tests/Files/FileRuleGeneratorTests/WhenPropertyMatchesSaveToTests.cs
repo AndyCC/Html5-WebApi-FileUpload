@@ -5,15 +5,15 @@ using Jumbleblocks.Net.Files;
 using NUnit.Framework;
 using Should.Fluent;
 
-namespace Tests.Jumbleblocks.Net.Files.PhysicalFileRuleGeneratorTests
+namespace Tests.Jumbleblocks.Net.Files.FileRuleGeneratorTests
 {
     [TestFixture]
-    public class WhenPropertyMatchesSaveToTests : TestBase<PhysicalFileRuleGenerator<FakePhysicalFileOverHttp>>
+    public class WhenPropertyMatchesSaveToTests : TestBase<FileRuleGenerator<FakeFileOverHttp>>
     {
         [SetUp]
         public void SetUp()
         {
-            ItemUnderTest = new PhysicalFileRuleGenerator<FakePhysicalFileOverHttp>();
+            ItemUnderTest = new FileRuleGenerator<FakeFileOverHttp>();
         }
 
         protected FileMappingRuleSet GeneratedFileMappingRuleSet
@@ -22,7 +22,7 @@ namespace Tests.Jumbleblocks.Net.Files.PhysicalFileRuleGeneratorTests
         }
 
         const string ValidFilePath = "~/App_Data/";
-        private IPhysicalWithRule<FakePhysicalFileOverHttp> _returnedObject;
+        private IFileBuildRule<FakeFileOverHttp> _returnedObject;
             
         [Test]
         public void ReturnsReferenceToContainingObject()
@@ -32,7 +32,7 @@ namespace Tests.Jumbleblocks.Net.Files.PhysicalFileRuleGeneratorTests
         }
         
         [Test]
-        public void WhenSaveToPathIsValid_ThenAddsFilePathMappingRuleToPhysicalFileMappingRule()
+        public void WhenSaveToPathIsValid_ThenAddsFilePathMappingRuleToFileMappingRule()
         {
             WhenFileNamePropertyMatchesTestThenSaveTo(ValidFilePath);
             ThenGeneratedRuleShouldHaveFilePathMappingRulesCountOf(1);
@@ -59,27 +59,27 @@ namespace Tests.Jumbleblocks.Net.Files.PhysicalFileRuleGeneratorTests
         [Test]
         public void WhenPropertyIsAVairable_ThenDoesNotAddMappingRule_AndThrowsInvalidFileMappingException()
         {
-            var vairableName = ExpressionHelper.GetMemberName<FakePhysicalFileOverHttp, string>(x => x.TestVairable);
+            var vairableName = ExpressionHelper.GetMemberName<FakeFileOverHttp, string>(x => x.TestVairable);
 
             var ex = Assert.Throws<FileMappingException>(
                   () => WhenPropertyIsDefinedByExpression(x => x.TestVairable)
                 );
 
-            ThenExceptionMessageShouldEqual(ex, string.Format("Can only map to properties. '{0}' of type '{1}' is not a property.", vairableName, typeof(FakePhysicalFileOverHttp).FullName));
+            ThenExceptionMessageShouldEqual(ex, string.Format("Can only map to properties. '{0}' of type '{1}' is not a property.", vairableName, typeof(FakeFileOverHttp).FullName));
             ThenGeneratedRuleShouldHaveFilePathMappingRulesCountOf(0);
         }
 
         [Test]
         public void WhenPropertyIsAMethod_ThenDoesNotAddMappingRule_AndThrowsInvalidFileMappingException()
         {
-            var methodName = ExpressionHelper.GetMethodName<FakePhysicalFileOverHttp, string>(x => x.TestMethod());
+            var methodName = ExpressionHelper.GetMethodName<FakeFileOverHttp, string>(x => x.TestMethod());
 
             var ex = Assert.Throws<FileMappingException>(
                   () => WhenPropertyIsDefinedByExpression(x => x.TestMethod())
                 );
 
 
-            ThenExceptionMessageShouldEqual(ex, string.Format("Can only map to properties. '{0}' of type '{1}' is not a property.", methodName, typeof(FakePhysicalFileOverHttp).FullName));
+            ThenExceptionMessageShouldEqual(ex, string.Format("Can only map to properties. '{0}' of type '{1}' is not a property.", methodName, typeof(FakeFileOverHttp).FullName));
             ThenGeneratedRuleShouldHaveFilePathMappingRulesCountOf(0);
         }
 
@@ -88,7 +88,7 @@ namespace Tests.Jumbleblocks.Net.Files.PhysicalFileRuleGeneratorTests
             _returnedObject = ItemUnderTest.WhenPropertyMatchesSaveTo(x => x.FileName, x => x == "Test", saveTo);
         }
 
-        private void WhenPropertyIsDefinedByExpression(Expression<Func<FakePhysicalFileOverHttp, string>> method)
+        private void WhenPropertyIsDefinedByExpression(Expression<Func<FakeFileOverHttp, string>> method)
         {
             ItemUnderTest.WhenPropertyMatchesSaveTo(method, x => x == "Test", ValidFilePath);
         }
