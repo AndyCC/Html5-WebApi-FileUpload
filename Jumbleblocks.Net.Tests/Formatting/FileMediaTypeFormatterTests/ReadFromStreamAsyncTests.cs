@@ -90,10 +90,30 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
             _multipartFormDataStreamProvider.Verify_CreatedMultipartFormDataStreamProviderCalledOnce_WithRoot(expectedFolderLocation);
         }
 
+        [Test]
+        public void ReturnsModel_PopulatedWithFormData()
+        {
+            const string expectedValue = "myproperty";
+
+            _httpContent.Set_ContentDispositionTo_FormData();
+            _httpContent.Set_ContentTypeTo_MultipartFormDataWithBoundary();
+
+            _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue("TemporaryFileUploadFolder", "~/App_Data/");
+            _multipartFormDataStreamProvider.AddFormDataToBeReturnedByProvider("PropertySetByModelBinding", expectedValue);
+
+            Call_ReadFromStreamAsync();
+
+            ThenObjectShouldBeOfType<FakeFileOverHttp2>(_returnedObject);
+            ThenPropertyShouldEqual((FakeFileOverHttp2)_returnedObject, x=> x.PropertySetByModelBinding, expectedValue);
+
+        }
+
         //TODO: mock MultipartFormDataStreamProvider and test returns correct filename to mapped model
 
         //TODO: test mapping form data into an object 
         //need serialiser (1)properties, subproperties, arrays (plus casting to differnt types) + look at json to see how it handles errors
+        //there must be something to do this, as MVC model binding has to do it
+
         
     }
 }

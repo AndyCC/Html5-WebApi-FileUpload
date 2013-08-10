@@ -33,6 +33,9 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
@@ -61,6 +64,7 @@
     <Compile Include="Formatting\FileMediaTypeFormatterTests\CanReadTests.cs" />
     <Compile Include="Formatting\FileMediaTypeFormatterTests\ReadFromStreamAsyncTests.cs" />
     <Compile Include="Formatting\FileMediaTypeFormatterTests\SupportedMediaTypesTests.cs" />
+    <Compile Include="Formatting\MultipartFormDataStreamProviderExtentionsTests\ReadFormDataAsTests.cs" />
     <Compile Include="Helpers\HttpContentMock.cs" />
     <Compile Include="Helpers\MockFormatterLogger.cs" />
     <Compile Include="Helpers\MultipartFormDataStreamProviderFactoryMock.cs" />

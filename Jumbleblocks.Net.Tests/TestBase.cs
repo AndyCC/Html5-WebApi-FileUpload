@@ -34,5 +34,15 @@ namespace Tests.Jumbleblocks.Net
         {
             obj.Should().Be.OfType(expectedType);
         }
+
+        public void ThenPropertyShouldBeNull<TObj>(TObj objWithProperty, Func<TObj, object> property)
+        {
+            property(objWithProperty).Should().Be.Null();
+        }
+
+        public void ThenPropertyShouldEqual<TObj, TProperty>(TObj objWithProperty, Func<TObj, TProperty> property, TProperty expectedValue)
+        {
+            property(objWithProperty).Should().Equal(expectedValue);
+        }
     }
 }

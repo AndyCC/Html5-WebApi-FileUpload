@@ -6,8 +6,7 @@ namespace Tests.Jumbleblocks.Net.Files
     {
         public string FileName { get; set; }
         public string MediaType { get; set; }
-        public string[] FilePaths { get; set; }
-
+        public string[] FilePaths { get; set; }      
         public string TestVairable = "Vairable";
 
         public string TestMethod()
@@ -23,5 +22,7 @@ namespace Tests.Jumbleblocks.Net.Files
         public string FileName { get; set; }
         public string MediaType { get; set; }
         public string[] FilePaths { get; set; }
+
+        public string PropertySetByModelBinding { get; set; }
     }
 }

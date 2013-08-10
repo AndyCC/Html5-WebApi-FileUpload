@@ -34,7 +34,6 @@ namespace Jumbleblocks.Net.Formatting
 
         private void SetSupportedMediaTypes()
         {
-
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/octet-stream"));
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("multipart/form-data"));
         }
@@ -59,11 +58,14 @@ namespace Jumbleblocks.Net.Formatting
                 await content.ReadAsMultipartAsync(provider);
 
                 //3: format form data into model
+                var model = provider.ReadFormDataAs(type);
 
-                //provider.FormData
+
                 //provider.FileData
 
-                return null;
+                //formdata collection -> readas fdrom System.Web.Http.ModelBinding 
+
+                return model;
 
             }
             catch (Exception ex)
