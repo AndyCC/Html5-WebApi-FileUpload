@@ -13,6 +13,11 @@ namespace Tests.Jumbleblocks.Net.Helpers
 
         private readonly Mock<MultipartFormDataStreamProvider> _multipartFormDataStreamProvider = new  Mock<MultipartFormDataStreamProvider>("~/App_Data/");
 
+        public MultipartFormDataStreamProvider MultipartFormDataStreamProviderObject
+        {
+            get { return _multipartFormDataStreamProvider.Object; }
+        }
+
         public void AddFormDataToBeReturnedByProvider(string key, string value)
         {
             _multipartFormDataStreamProvider.Object.FormData.Add(key, value);

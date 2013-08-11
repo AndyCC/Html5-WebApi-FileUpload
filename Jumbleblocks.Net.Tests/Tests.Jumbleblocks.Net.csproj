@@ -66,6 +66,7 @@
     <Compile Include="Formatting\FileMediaTypeFormatterTests\SupportedMediaTypesTests.cs" />
     <Compile Include="Formatting\MultipartFormDataStreamProviderExtentionsTests\ReadFormDataAsTests.cs" />
     <Compile Include="Helpers\HttpContentMock.cs" />
+    <Compile Include="Helpers\HttpContentReaderMock.cs" />
     <Compile Include="Helpers\MockFormatterLogger.cs" />
     <Compile Include="Helpers\MultipartFormDataStreamProviderFactoryMock.cs" />
     <Compile Include="Helpers\WebConfigurationMock.cs" />

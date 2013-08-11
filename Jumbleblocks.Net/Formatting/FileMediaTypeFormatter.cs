@@ -17,16 +17,20 @@ namespace Jumbleblocks.Net.Formatting
 {
     public class FileMediaTypeFormatter : MediaTypeFormatter
     {
-        public FileMediaTypeFormatter(IWebConfiguration webConfiguration, IMultipartFormDataStreamProviderFactory multipartFormDataStreamProviderFactory)
+        public FileMediaTypeFormatter(IWebConfiguration webConfiguration, 
+                                      IMultipartFormDataStreamProviderFactory multipartFormDataStreamProviderFactory,
+                                      IHttpContentReader httpContentReader)
         {
             _webConfiguration = webConfiguration;
             _multipartFormDataStreamProviderFactory = multipartFormDataStreamProviderFactory;
+            _httpContentReader = httpContentReader;
 
             SetSupportedMediaTypes();
         }
 
         private readonly IWebConfiguration _webConfiguration;
         private readonly IMultipartFormDataStreamProviderFactory _multipartFormDataStreamProviderFactory;
+        private readonly IHttpContentReader _httpContentReader;
 
         protected FileMediaTypeFormatter()
         {
@@ -55,7 +59,7 @@ namespace Jumbleblocks.Net.Formatting
 
             try
             {
-                await content.ReadAsMultipartAsync(provider);
+                await _httpContentReader.ReadAsMultipartAsyncIntoProvider(content, provider);
 
                 //3: format form data into model
                 var model = provider.ReadFormDataAs(type);
@@ -93,16 +97,5 @@ namespace Jumbleblocks.Net.Formatting
 
 
         //TODO: implement custom  MultipartFormDataStreamProvider : MultipartFileStreamProvider
-
-        //TODO
-          //catch (Exception e)
-          //  {
-          //      if (formatterLogger == null)
-          //      {
-          //          throw;
-          //      }
-          //      formatterLogger.LogError(String.Empty, e);
-          //      return GetDefaultValueForType(type);
-          //  }
     }
 }

@@ -23,6 +23,7 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
         private Mock<Stream> _stream;
         private Mock<IFormatterLogger> _formatterLogger;
         private HttpContentMock _httpContent;
+        private HttpContentReaderMock _httpContentReader;
 
         private WebConfigurationMock _webConfiguration;
         private MultipartFormDataStreamProviderFactoryMock _multipartFormDataStreamProvider;
@@ -32,8 +33,11 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
         {
             _webConfiguration = new WebConfigurationMock();
             _multipartFormDataStreamProvider = new MultipartFormDataStreamProviderFactoryMock();
+            _httpContentReader = new HttpContentReaderMock();
 
-            ItemUnderTest = new FileMediaTypeFormatter(_webConfiguration.Object, _multipartFormDataStreamProvider.Object);
+            ItemUnderTest = new FileMediaTypeFormatter(_webConfiguration.Object, 
+                                                       _multipartFormDataStreamProvider.Object,
+                                                       _httpContentReader.Object);
 
             _type = typeof(FakeFileOverHttp);
             _stream = new Mock<Stream>();
@@ -49,7 +53,10 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
             {
                 var task = ItemUnderTest.ReadFromStreamAsync(_type, _stream.Object, _httpContent.Object,
                                                              _formatterLogger.Object);
+
                 task.Wait();
+
+                _returnedObject = task.Result;
             }
             catch (AggregateException ex)
             {
@@ -91,19 +98,38 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
         }
 
         [Test]
+        public void PassesHttpContent_AndProvider_ToHttpContentReader_ReadAsMultipartAsyncIntoProvider()
+        {
+            const string webConfigKey = "TemporaryFileUploadFolder";
+            const string expectedFolderLocation = "~/App_Data/";
+
+            _httpContent.Set_ContentDispositionTo_FormData();
+            _httpContent.Set_ContentTypeTo_MultipartFormDataWithBoundary();
+
+            _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue(webConfigKey, expectedFolderLocation);
+
+            Call_ReadFromStreamAsync();
+
+            _httpContentReader.Verify_ReadAsMultipartAsyncIntoProvider_CalledOnceWith(_httpContent.Object, _multipartFormDataStreamProvider.MultipartFormDataStreamProviderObject);
+        }
+
+        [Test]
         public void ReturnsModel_PopulatedWithFormData()
         {
             const string expectedValue = "myproperty";
 
+            _type = typeof(FakeFileOverHttp2);
             _httpContent.Set_ContentDispositionTo_FormData();
             _httpContent.Set_ContentTypeTo_MultipartFormDataWithBoundary();
 
             _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue("TemporaryFileUploadFolder", "~/App_Data/");
             _multipartFormDataStreamProvider.AddFormDataToBeReturnedByProvider("PropertySetByModelBinding", expectedValue);
 
+            _httpContentReader.Setup_ReadAsMultipartAsyncIntoProvider_ToReturn(_multipartFormDataStreamProvider.MultipartFormDataStreamProviderObject);
+
             Call_ReadFromStreamAsync();
 
-            ThenObjectShouldBeOfType<FakeFileOverHttp2>(_returnedObject);
+            ThenObjectShouldBeOfType(_returnedObject, _type);
             ThenPropertyShouldEqual((FakeFileOverHttp2)_returnedObject, x=> x.PropertySetByModelBinding, expectedValue);
 
         }

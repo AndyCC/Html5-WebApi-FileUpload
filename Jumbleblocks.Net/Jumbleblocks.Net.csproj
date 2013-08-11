@@ -68,6 +68,8 @@
     <Compile Include="Files\ValidationResult.cs" />
     <Compile Include="Files\ValidationResultCollection.cs" />
     <Compile Include="Formatting\FileMediaTypeFormatter.cs" />
+    <Compile Include="Formatting\HttpContentReader.cs" />
+    <Compile Include="Formatting\IHttpContentReader.cs" />
     <Compile Include="Formatting\IMultipartFormDataStreamProviderFactory.cs" />
     <Compile Include="Formatting\MultipartFormDataStreamProviderExtentions.cs" />
     <Compile Include="Formatting\MultipartFormDataStreamProviderFactory.cs" />

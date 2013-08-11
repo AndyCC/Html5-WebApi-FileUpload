@@ -12,7 +12,7 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
         [SetUp]
         public void SetUp()
         {
-            ItemUnderTest = new FileMediaTypeFormatter(new WebConfigurationMock().Object, new MultipartFormDataStreamProviderFactoryMock().Object);
+            ItemUnderTest = new FileMediaTypeFormatter(new WebConfigurationMock().Object, new MultipartFormDataStreamProviderFactoryMock().Object, new HttpContentReaderMock().Object);
         }
 
         [Test]
