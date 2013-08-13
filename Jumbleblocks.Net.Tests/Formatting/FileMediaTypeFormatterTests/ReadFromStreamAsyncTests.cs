@@ -36,15 +36,15 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
             _multipartFormDataStreamProvider = new MultipartFormDataStreamProviderFactoryMock();
             _httpContentReader = new HttpContentReaderMock();
 
-            ItemUnderTest = new FileMediaTypeFormatter(_webConfiguration.Object, 
+            ItemUnderTest = new FileMediaTypeFormatter(_webConfiguration.Object,
                                                        _multipartFormDataStreamProvider.Object,
                                                        _httpContentReader.Object);
 
-            _type = typeof(FakeFileOverHttp);
+            _type = typeof (FakeFileOverHttp);
             _stream = new Mock<Stream>();
             _httpContent = new HttpContentMock();
             _formatterLogger = new Mock<IFormatterLogger>();
-            
+
             _returnedObject = null;
         }
 
@@ -68,7 +68,7 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
         private void ThenHttpResponseExceptionThrownWithStatusCode(HttpStatusCode expectedStatusCode)
         {
             _exceptionThrown.Should().Be.OfType<HttpResponseException>();
-            ((HttpResponseException)_exceptionThrown).Response.StatusCode.Should().Equal(expectedStatusCode);
+            ((HttpResponseException) _exceptionThrown).Response.StatusCode.Should().Equal(expectedStatusCode);
         }
 
         [Test]
@@ -90,12 +90,14 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
             _httpContent.Set_ContentDispositionTo_FormData();
             _httpContent.Set_ContentTypeTo_MultipartFormDataWithBoundary();
 
-            _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue(webConfigKey, expectedFolderLocation);
+            _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue(webConfigKey,
+                                                                                            expectedFolderLocation);
 
             Call_ReadFromStreamAsync();
 
             _webConfiguration.Verify_GetApplicationSetting_CalledWithName(webConfigKey, Times.Once());
-            _multipartFormDataStreamProvider.Verify_CreatedMultipartFormDataStreamProviderCalledOnce_WithRoot(expectedFolderLocation);
+            _multipartFormDataStreamProvider.Verify_CreatedMultipartFormDataStreamProviderCalledOnce_WithRoot(
+                expectedFolderLocation);
         }
 
         [Test]
@@ -107,11 +109,14 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
             _httpContent.Set_ContentDispositionTo_FormData();
             _httpContent.Set_ContentTypeTo_MultipartFormDataWithBoundary();
 
-            _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue(webConfigKey, expectedFolderLocation);
+            _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue(webConfigKey,
+                                                                                            expectedFolderLocation);
 
             Call_ReadFromStreamAsync();
 
-            _httpContentReader.Verify_ReadAsMultipartAsyncIntoProvider_CalledOnceWith(_httpContent.Object, _multipartFormDataStreamProvider.MultipartFormDataStreamProviderObject);
+            _httpContentReader.Verify_ReadAsMultipartAsyncIntoProvider_CalledOnceWith(_httpContent.Object,
+                                                                                      _multipartFormDataStreamProvider
+                                                                                          .MultipartFormDataStreamProviderObject);
         }
 
         [Test]
@@ -119,19 +124,22 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
         {
             const string expectedValue = "myproperty";
 
-            _type = typeof(FakeFileOverHttp2);
+            _type = typeof (FakeFileOverHttp2);
             _httpContent.Set_ContentDispositionTo_FormData();
             _httpContent.Set_ContentTypeTo_MultipartFormDataWithBoundary();
 
-            _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue("TemporaryFileUploadFolder", "~/App_Data/");
-            _multipartFormDataStreamProvider.AddFormDataToBeReturnedByProvider("PropertySetByModelBinding", expectedValue);
+            _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue(
+                "TemporaryFileUploadFolder", "~/App_Data/");
+            _multipartFormDataStreamProvider.AddFormDataToBeReturnedByProvider("PropertySetByModelBinding",
+                                                                               expectedValue);
 
-            _httpContentReader.Setup_ReadAsMultipartAsyncIntoProvider_ToReturn(_multipartFormDataStreamProvider.MultipartFormDataStreamProviderObject);
+            _httpContentReader.Setup_ReadAsMultipartAsyncIntoProvider_ToReturn(
+                _multipartFormDataStreamProvider.MultipartFormDataStreamProviderObject);
 
             Call_ReadFromStreamAsync();
 
             ThenObjectShouldBeOfType(_returnedObject, _type);
-            ThenPropertyShouldEqual((FakeFileOverHttp2)_returnedObject, x=> x.PropertySetByModelBinding, expectedValue);
+            ThenPropertyShouldEqual((FakeFileOverHttp2) _returnedObject, x => x.PropertySetByModelBinding, expectedValue);
 
         }
 
@@ -143,8 +151,10 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
             _httpContent.Set_ContentDispositionTo_FormData();
             _httpContent.Set_ContentTypeTo_MultipartFormDataWithBoundary();
 
-            _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue("TemporaryFileUploadFolder", "~/App_Data/");
-            _httpContentReader.Setup_ReadAsMultipartAsyncIntoProvider_ToReturn(_multipartFormDataStreamProvider.MultipartFormDataStreamProviderObject);
+            _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue(
+                "TemporaryFileUploadFolder", "~/App_Data/");
+            _httpContentReader.Setup_ReadAsMultipartAsyncIntoProvider_ToReturn(
+                _multipartFormDataStreamProvider.MultipartFormDataStreamProviderObject);
 
             _multipartFormDataStreamProvider.AddFilePath(filePath);
 
@@ -160,9 +170,11 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
             _httpContent.Set_ContentDispositionTo_FormData();
             _httpContent.Set_ContentTypeTo_MultipartFormDataWithBoundary();
 
-            _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue("TemporaryFileUploadFolder", "~/App_Data/");
-            _httpContentReader.Setup_ReadAsMultipartAsyncIntoProvider_ToReturn(_multipartFormDataStreamProvider.MultipartFormDataStreamProviderObject);
-            
+            _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue(
+                "TemporaryFileUploadFolder", "~/App_Data/");
+            _httpContentReader.Setup_ReadAsMultipartAsyncIntoProvider_ToReturn(
+                _multipartFormDataStreamProvider.MultipartFormDataStreamProviderObject);
+
             Call_ReadFromStreamAsync();
 
             ThenObjectShouldImplementInterface<IFileOverHttp>(_returnedObject);
@@ -180,13 +192,5 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
             ((IFileOverHttp) _returnedObject).FileData.Should().Not.Be.Null();
             ((IFileOverHttp) _returnedObject).FileData.Should().Count.Zero();
         }
-
-        //TODO: mock MultipartFormDataStreamProvider and test returns correct filename to mapped model
-
-        //TODO: test mapping form data into an object 
-        //need serialiser (1)properties, subproperties, arrays (plus casting to differnt types) + look at json to see how it handles errors
-        //there must be something to do this, as MVC model binding has to do it
-
-        
     }
 }
