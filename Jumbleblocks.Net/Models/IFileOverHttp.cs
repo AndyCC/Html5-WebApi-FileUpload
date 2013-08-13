@@ -1,9 +1,9 @@
-﻿namespace Jumbleblocks.Net.Models
+﻿using System.Net.Http;
+
+namespace Jumbleblocks.Net.Models
 {
     public interface IFileOverHttp 
     {
-        string FileName { get; set; }
-        string MediaType { get; set; }
-        string[] FilePaths { get; set; }
+        MultipartFileData[] FileData { get; set; }
     }
 }

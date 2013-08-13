@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 using Jumbleblocks.Net.Formatting;
+using Jumbleblocks.Net.Models;
 using Moq;
 using NUnit.Framework;
 using Should.Fluent;
@@ -132,6 +133,52 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
             ThenObjectShouldBeOfType(_returnedObject, _type);
             ThenPropertyShouldEqual((FakeFileOverHttp2)_returnedObject, x=> x.PropertySetByModelBinding, expectedValue);
 
+        }
+
+        [Test]
+        public void WithProviderContainingOneFilePath_PopulatesModelsFilePaths()
+        {
+            const string filePath = "~/App_Data/tempfile.txt";
+
+            _httpContent.Set_ContentDispositionTo_FormData();
+            _httpContent.Set_ContentTypeTo_MultipartFormDataWithBoundary();
+
+            _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue("TemporaryFileUploadFolder", "~/App_Data/");
+            _httpContentReader.Setup_ReadAsMultipartAsyncIntoProvider_ToReturn(_multipartFormDataStreamProvider.MultipartFormDataStreamProviderObject);
+
+            _multipartFormDataStreamProvider.AddFilePath(filePath);
+
+            Call_ReadFromStreamAsync();
+
+            ThenObjectShouldImplementInterface<IFileOverHttp>(_returnedObject);
+            ThenReturnedObjectShouldContainFilePath(filePath);
+        }
+
+        [Test]
+        public void WithProviderContainingNoFilePaths_PopulatesModelsFilePathsWithEmptyList()
+        {
+            _httpContent.Set_ContentDispositionTo_FormData();
+            _httpContent.Set_ContentTypeTo_MultipartFormDataWithBoundary();
+
+            _webConfiguration.SetUp_GetApplicationSetting_WithProvidedNameReturnsGivenValue("TemporaryFileUploadFolder", "~/App_Data/");
+            _httpContentReader.Setup_ReadAsMultipartAsyncIntoProvider_ToReturn(_multipartFormDataStreamProvider.MultipartFormDataStreamProviderObject);
+            
+            Call_ReadFromStreamAsync();
+
+            ThenObjectShouldImplementInterface<IFileOverHttp>(_returnedObject);
+            ThenReturnedObjectFilePathShouldBeEmpty();
+        }
+
+
+        private void ThenReturnedObjectShouldContainFilePath(string filePath)
+        {
+            ((IFileOverHttp) _returnedObject).FileData.Should().Contain.One(x => x.LocalFileName == filePath);
+        }
+
+        private void ThenReturnedObjectFilePathShouldBeEmpty()
+        {
+            ((IFileOverHttp) _returnedObject).FileData.Should().Not.Be.Null();
+            ((IFileOverHttp) _returnedObject).FileData.Should().Count.Zero();
         }
 
         //TODO: mock MultipartFormDataStreamProvider and test returns correct filename to mapped model
