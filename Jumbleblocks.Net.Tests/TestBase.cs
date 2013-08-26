@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Jumbleblocks.Net.Core.Reflection;
+using NUnit.Framework;
 using Should.Fluent;
 
 namespace Tests.Jumbleblocks.Net
@@ -33,6 +35,16 @@ namespace Tests.Jumbleblocks.Net
         public void ThenObjectShouldBeOfType(object obj, Type expectedType)
         {
             obj.Should().Be.OfType(expectedType);
+        }
+
+        public void ThenObjectShouldImplementInterface<TInterface>(object obj)
+        {
+            ThenObjectShouldImplementInterface(obj, typeof(TInterface));
+        }
+
+        public void ThenObjectShouldImplementInterface(object obj, Type interfaceType)
+        {
+            Assert.IsTrue(obj.GetType().IsImplementationOf(interfaceType));
         }
 
         public void ThenPropertyShouldBeNull<TObj>(TObj objWithProperty, Func<TObj, object> property)
