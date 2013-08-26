@@ -26,7 +26,8 @@
 </head>
 <body>
     <div>
-        <form id="fileForm" action="http://localhost:50572/Api/Files/Upload/" enctype="multipart/form-data" method="POST">
+        <form id="fileForm" action="http://localhost:50572/Api/Files/Upload/" enctype="multipart/form-data" method="POST"
+              file-manager-name="my-file-manager">
             
             <div>
                 @Html.LabelFor(x => x.Title)

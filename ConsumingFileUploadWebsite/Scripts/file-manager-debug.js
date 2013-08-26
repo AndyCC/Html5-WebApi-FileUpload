@@ -4,6 +4,12 @@
 
 var NewFileUploadEvent = "_NEWFILETOUPLOAD_EVENT_";
 
+var uploadBehaviours = {
+    OnSubmit: "Submit_Press",
+    OnFileSelected: "File_Selected",
+    OnFileSelectedFormFilled: "File_Selected_Form_Filled"
+};
+
 var fileUploadManagerFactory = {
     defaultFileUploadManagerName: "_##__@@DEFAULTFILEUPLOADMANAGER@@__##",
     fileUploadManagers: [],
@@ -127,10 +133,14 @@ function FileUploadManager(name) {
 };
 
 
+//add an upload class for each behaviour
+
+
+
+
 function MultiAreaFeedbackAdapter(feedbackAreaElement, targetFileManagerName) {
     this.element = $(feedbackAreaElement);
-
-    //TODO: wrap below in init method to call after class contructed?
+    
     var attribTargetFileManagerName = $(this).attr('target-file-manager-name');
 
     if (attribTargetFileManagerName)
@@ -142,17 +152,30 @@ function MultiAreaFeedbackAdapter(feedbackAreaElement, targetFileManagerName) {
             alert('uploading: ' + evt.fileName);
         }
     });
-    //TODO: transform events into screen actions
-    //TODO: needs element which it is to adapt(or at least sub class does)
-    //TODO: needs to handle events from file manager, and call methods if they exist
-
 }
 
 
-//TODO: will need a file uploader class 
-//TODO: need to add an optional feedback adapter (also use attributes if not supplied)
-//TODO: store feedbackarea adapter, so can't create twice
 (function ($) {
+    
+    //TODO: set on form, specify file-manager on setFileSelect from form or in form
+
+    $.fn.setFileUploadForm = function() {
+        return this.each(function() {
+            var fileUploadManagerName = $(this).attr('file-manager-name');
+            var fileUploadManager = fileUploadManagerFactory.createOrGet(fileUploadManagerName);
+
+            var fileInputs = $(this).find(':input[type=file]');
+
+            fileInputs.each(function() {
+                //register file inpit
+            });
+
+
+            //TODO: detect form submit
+
+        });
+    };
+
     $.fn.setFileSelect = function () {
         return this.each(function () {
             var fileUploadManagerName = $(this).attr('file-manager-name');
