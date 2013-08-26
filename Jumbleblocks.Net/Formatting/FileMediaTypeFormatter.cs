@@ -60,14 +60,9 @@ namespace Jumbleblocks.Net.Formatting
             try
             {
                 await _httpContentReader.ReadAsMultipartAsyncIntoProvider(content, provider);
-
-                //3: format form data into model
                 var model = provider.ReadFormDataAs(type);
-
-
+                
                 //provider.FileData
-
-                //formdata collection -> readas fdrom System.Web.Http.ModelBinding 
 
                 return model;
 
@@ -94,8 +89,5 @@ namespace Jumbleblocks.Net.Formatting
             var temporyFileLocation = _webConfiguration.GetApplicationSetting("TemporaryFileUploadFolder");
             return _multipartFormDataStreamProviderFactory.CreateWithRootPath(temporyFileLocation);
         }
-
-
-        //TODO: implement custom  MultipartFormDataStreamProvider : MultipartFileStreamProvider
     }
 }
