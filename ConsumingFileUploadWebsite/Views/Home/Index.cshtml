@@ -1,0 +1,54 @@
+﻿@model ConsumingFileUploadWebsite.Models.TestFormFile
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    
+    <script type="text/javascript" src="~/Scripts/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/file-manager-debug.js"></script>
+    <script type="text/javascript">
+        (function ($) {
+            $(document).ready(function () {
+                $("#file-selector").setFileSelect();
+                $("#feedback-area").setFileUploadFeedbackAdapter("multi-area");
+            });
+        }(jQuery));
+    </script>
+
+
+</head>
+<body>
+    <div>
+        <form id="fileForm" action="http://localhost:50572/Api/Files/Upload/" enctype="multipart/form-data" method="POST">
+            
+            <div>
+                @Html.LabelFor(x => x.Title)
+                @Html.TextBoxFor(x => x.Title)
+            </div>
+            <div>
+                @Html.LabelFor(x => x.Description)
+                @Html.TextBoxFor(x => x.Description)
+            </div>
+            
+            <div>
+                <input id="file-selector" file-manager-name="my-file-manager" name="files[]" type="file"/>
+            </div>
+            
+            <div>
+                <input type="submit"/>
+            </div>
+
+        </form>
+    </div>
+    <div id="feedback-area" target-file-manager-name="my-file-manager">
+        
+    </div>
+</body>
+</html>

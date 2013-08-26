@@ -13,10 +13,7 @@ namespace Jumbleblocks.Net.Formatting
         {
             var obj = GetFormDataAsFormDataCollection(provider).ReadAs(type);
 
-            if(obj != null)
-                return obj;
-
-            return Activator.CreateInstance(type);
+            return obj ?? Activator.CreateInstance(type);
         }
 
         private static FormDataCollection GetFormDataAsFormDataCollection(MultipartFormDataStreamProvider provider)

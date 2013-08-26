@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -7,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using Jumbleblocks.Net.Core.Configuration;
 using Jumbleblocks.Net.Core.Reflection;
@@ -63,7 +63,6 @@ namespace Jumbleblocks.Net.Formatting
                 ((IFileOverHttp) model).FileData = provider.FileData.ToArray();
                 
                 return model;
-
             }
             catch (Exception ex)
             {
@@ -75,15 +74,14 @@ namespace Jumbleblocks.Net.Formatting
         protected void AssertContentIsMimeMultipartContent(HttpContent content)
         {
             if (!content.IsMimeMultipartContent())
-            {
                 throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
-            }
         }
         
         private MultipartFormDataStreamProvider CreateMultipartFormDataStreamProvider()
         {
             var temporyFileLocation = _webConfiguration.GetApplicationSetting("TemporaryFileUploadFolder");
-            return _multipartFormDataStreamProviderFactory.CreateWithRootPath(temporyFileLocation);
+            var locationOnServer = HttpContext.Current.Server.MapPath(temporyFileLocation) ?? temporyFileLocation;
+            return _multipartFormDataStreamProviderFactory.CreateWithRootPath(locationOnServer);
         }
     }
 }

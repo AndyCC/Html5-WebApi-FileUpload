@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Formatting;
+using System.Web;
 using System.Web.Http;
 using Jumbleblocks.Net.Formatting;
 using Jumbleblocks.Net.Models;
@@ -46,6 +47,8 @@ namespace Tests.Jumbleblocks.Net.Formatting.FileMediaTypeFormatterTests
             _formatterLogger = new Mock<IFormatterLogger>();
 
             _returnedObject = null;
+
+            HttpContext.Current = new HttpContext(new HttpRequest("test", "http://localhost/", string.Empty), new HttpResponse(new StringWriter()));
         }
 
         public void Call_ReadFromStreamAsync()

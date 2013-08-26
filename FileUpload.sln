@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploadApi", "FileUploadApi\FileUploadApi.csproj", "{8880C795-FFDE-48ED-9C1B-FD304A05D49D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumingFileUploadWebsite", "ConsumingFileUploadWebsite\ConsumingFileUploadWebsite.csproj", "{97888B46-712A-4D36-857A-89A761203120}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jumbleblocks.Net", "Jumbleblocks.Net\Jumbleblocks.Net.csproj", "{37EFF434-E2DF-4175-964C-04629FFA4C45}"
@@ -27,10 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8880C795-FFDE-48ED-9C1B-FD304A05D49D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8880C795-FFDE-48ED-9C1B-FD304A05D49D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8880C795-FFDE-48ED-9C1B-FD304A05D49D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8880C795-FFDE-48ED-9C1B-FD304A05D49D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{97888B46-712A-4D36-857A-89A761203120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{97888B46-712A-4D36-857A-89A761203120}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97888B46-712A-4D36-857A-89A761203120}.Release|Any CPU.ActiveCfg = Release|Any CPU
